@@ -5,39 +5,44 @@ import (
 	"testing"
 )
 
-func TestCanRotateLeft(t *testing.T) {
-	plateau := Plateau{maxX: 5, maxY: 5}
-	startingPosition := Coordinates{1, 2}
-	marsRover := MarsRover{plateau: plateau, heading: N, position: startingPosition}
+func Test_singleMarsRover(t *testing.T) {
 
-	marsRover.turnLeft()
-	if marsRover.heading != W {
-		t.Fail()
-	}
-}
+	Convey("Given a 5x5 plateau", t, func() {
 
-func TestConveyCanRotateLeft(t *testing.T) {
-	Convey("Rovers can turn", t, func() {
 		plateau := Plateau{maxX: 5, maxY: 5}
-		startingPosition := Coordinates{1, 2}
-		marsRover := MarsRover{plateau: plateau, heading: N, position: startingPosition}
-		Convey("Left", func() {
-			marsRover.turnLeft()
-			So(marsRover.heading, ShouldEqual, W)
+		startingPosition := Coordinates{x: 1, y: 2}
+		marsRover := MarsRover{
+			plateau:  plateau,
+			heading:  N,
+			position: startingPosition,
+		}
+
+		Convey("Rover can turn", func() {
+			Convey("Left", func() {
+				marsRover.acceptCommands(L)
+				So(marsRover.heading, ShouldEqual, W)
+			})
+			Convey("Right", func() {
+				marsRover.acceptCommands(R)
+				So(marsRover.heading, ShouldEqual, E)
+			})
 		})
-	})
-}
 
-func TestConvey(t *testing.T) {
-	// Only pass t into top-level Convey calls
-	Convey("Given some integer with a starting value", t, func() {
-		x := 1
+		Convey("Rover can move", func() {
 
-		Convey("When the integer is incremented", func() {
-			x++
+			Convey("single step", func() {
+				marsRover.acceptCommands(M)
+				So(marsRover.position.y, ShouldEqual, 3)
+			})
 
-			Convey("The value should be greater by one", func() {
-				So(x, ShouldEqual, 2)
+			Convey("two steps", func() {
+				marsRover.acceptCommands(M, M)
+				So(marsRover.position.y, ShouldEqual, 4)
+			})
+
+			Convey("too far", func() {
+				marsRover.acceptCommands(M, M, M, M, M, M, M)
+				So(marsRover.status, ShouldEqual, NOK)
 			})
 		})
 	})

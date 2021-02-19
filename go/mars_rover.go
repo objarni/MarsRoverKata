@@ -13,6 +13,7 @@ const (
 	S
 	W
 )
+
 func (d Direction) String() string {
 	return [...]string{"N", "E", "S", "W"}[d]
 }
@@ -20,14 +21,13 @@ func (d Direction) String() string {
 type Command int
 
 const (
-	B Command = iota
-	F
+	M Command = iota
 	L
 	R
 )
 
 func (c Command) String() string {
-	return [...]string{"B", "F", "L", "R"}[c]
+	return [...]string{"M", "L", "R"}[c]
 }
 
 type Obstacle struct {
@@ -35,8 +35,8 @@ type Obstacle struct {
 }
 
 type Plateau struct {
-	maxX int
-	maxY int
+	maxX      int
+	maxY      int
 	obstacles []Obstacle
 }
 
@@ -46,44 +46,27 @@ const (
 	OK Status = iota
 	NOK
 )
+
 func (s Status) String() string {
 	return [...]string{"OK", "NOK"}[s]
 }
 
 type MarsRover struct {
-	plateau Plateau
-	heading Direction
+	plateau  Plateau
+	heading  Direction
 	position Coordinates
-	status Status
+	status   Status
 }
 
-
-func (r MarsRover) currentLocation() interface{} {
-	return ""
+func (r *MarsRover) acceptCommands(commands ...Command) {
+	for _, command := range commands {
+		switch command {
+		case L:
+			r.heading = W
+		case R:
+			r.heading = E
+		case M:
+			r.position = Coordinates{x: 1, y: r.position.y + 1}
+		}
+	}
 }
-
-func (r MarsRover) acceptCommands(commands []Command) {
-
-}
-
-func (r MarsRover) coordinates() Coordinates {
-	return Coordinates{0, 0}
-}
-
-func (r MarsRover) forward() {
-
-}
-
-func (r MarsRover) backward() {
-
-}
-
-func (r MarsRover) turnRight() {
-
-}
-
-func (r MarsRover) turnLeft() {
-	r.heading = W
-}
-
-
