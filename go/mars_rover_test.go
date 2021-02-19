@@ -5,15 +5,9 @@ import (
 	"testing"
 )
 
-
-
-
-
-
-
 func TestCanRotateLeft(t *testing.T) {
 	plateau := Plateau{maxX: 5, maxY: 5}
-	startingPosition := Coordinates{1,2}
+	startingPosition := Coordinates{1, 2}
 	marsRover := MarsRover{plateau: plateau, heading: N, position: startingPosition}
 
 	marsRover.turnLeft()
@@ -25,7 +19,7 @@ func TestCanRotateLeft(t *testing.T) {
 func TestConveyCanRotateLeft(t *testing.T) {
 	Convey("Rovers can turn", t, func() {
 		plateau := Plateau{maxX: 5, maxY: 5}
-		startingPosition := Coordinates{1,2}
+		startingPosition := Coordinates{1, 2}
 		marsRover := MarsRover{plateau: plateau, heading: N, position: startingPosition}
 		Convey("Left", func() {
 			marsRover.turnLeft()
