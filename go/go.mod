@@ -1,4 +1,4 @@
-module go
+module marsrover
 
 go 1.16
 
